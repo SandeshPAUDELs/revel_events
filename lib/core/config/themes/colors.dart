@@ -7,4 +7,6 @@ class AppColors {
   static Color brandPrimaryColor = const Color(0xFFE50914);
   static Color buttonlevelSecondaryColor = const Color(0xFF000000);
   static Color cardBackgroundColor = const Color(0xFF1E1E1E);
+  static Color cardSecondayColor= const Color(0xFF2A2A2A);
+  static Color strokeColor = const Color(0xFF323232);
 }
