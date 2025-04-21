@@ -4,8 +4,8 @@ import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:event_app/module/presentation/cubit/expandable_card_cubit.dart';
-import 'package:event_app/module/presentation/widgets/expanded_widget.dart';
-import 'package:event_app/module/presentation/widgets/filter_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/expanded_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

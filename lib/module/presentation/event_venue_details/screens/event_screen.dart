@@ -1,17 +1,20 @@
 import 'package:event_app/common/widgets/persistent_headers.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
-import 'package:event_app/module/presentation/widgets/aboutWidget.dart';
-import 'package:event_app/module/presentation/widgets/artist_widget.dart';
-import 'package:event_app/module/presentation/widgets/botton_nav_widget.dart';
-import 'package:event_app/module/presentation/widgets/describe_events.dart';
-import 'package:event_app/module/presentation/widgets/galleries_widget.dart';
-import 'package:event_app/module/presentation/widgets/more_info_widget.dart';
-import 'package:event_app/module/presentation/widgets/organizer_widget.dart';
-import 'package:event_app/module/presentation/widgets/recommended_events.dart';
-import 'package:event_app/module/presentation/widgets/terms_conditions_widget.dart';
-import 'package:event_app/module/presentation/widgets/ticket_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_detail_cubit.dart';
+import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_details_state.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/aboutWidget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/artist_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/botton_nav_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/describe_events.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/galleries_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/more_info_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/organizer_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/recommended_events.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/terms_conditions_widget.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/ticket_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventScreen extends StatelessWidget {
   final GlobalKey ticketKey = GlobalKey();
@@ -38,6 +41,9 @@ class EventScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<EventVenueDetailCubit>().getEventVenueDetails();
+    });
     final textTheme = TextThemes.createTextTheme(context);
     final title = [
       {'test': 'Sajan Raj Vaidya World Tour'},
@@ -55,17 +61,50 @@ class EventScreen extends StatelessWidget {
                 floating: false,
                 backgroundColor: AppColors.buttonlevelSecondaryColor,
                 pinned: true,
-                flexibleSpace: FlexibleSpaceBar(
-                  titlePadding: EdgeInsetsDirectional.only(
-                    start: 40,
-                    bottom: 16,
-                  ),
-                  title: Text(title[0]['test']!, style: textTheme.titleLarge),
-                  background: Image.network(
-                    "https://images.pexels.com/photos/396547/pexels-photo-396547.jpeg?auto=compress&cs=tinysrgb&h=350",
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                flexibleSpace:
+                    BlocBuilder<EventVenueDetailCubit, EventVenueDetailsState>(
+                      builder: (context, state) {
+                        if (state is EventVenueDetailsLoading) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is EventVenueDetailsLoaded) {
+                          
+                          return FlexibleSpaceBar(
+                            titlePadding: EdgeInsetsDirectional.only(
+                              start: 40,
+                              bottom: 16,
+                            ),
+                            title: Text(
+                              title[0]['test']!,
+                              style: textTheme.titleLarge,
+                            ),
+                            background: Image.network(
+                              state.eventVenueDetails[0].image,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Center(
+                                  child: Text(
+                                    'Error loading image',
+                                    style: textTheme.bodyMedium?.copyWith(
+                                      color: AppColors.textPrimaryColor,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        } else if (state is EventVenueDetailsError) {
+                          return const Center(
+                            child: Text('Error loading event details'),
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                
+                
                 leading: IconButton(
                   icon: Icon(
                     Icons.arrow_back,
@@ -92,7 +131,7 @@ class EventScreen extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                 
+
                   child: DesccribeEvents(),
                 ),
               ),

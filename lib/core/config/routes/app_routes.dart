@@ -1,5 +1,5 @@
 import 'package:event_app/core/config/routes/routes_name.dart';
-import 'package:event_app/module/presentation/screens/event_screen.dart';
+import 'package:event_app/module/presentation/event_venue_details/screens/event_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' show GlobalKey, NavigatorState;
 import 'package:go_router/go_router.dart';
