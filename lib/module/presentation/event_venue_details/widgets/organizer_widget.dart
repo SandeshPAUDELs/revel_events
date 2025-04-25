@@ -2,6 +2,7 @@ import 'package:event_app/common/style/button_styles.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class OrganizerWidget extends StatelessWidget {
   final String title, organizer, followers;
@@ -37,7 +38,11 @@ class OrganizerWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.verified_user, color: AppColors.textPrimaryColor),
+                  SvgPicture.asset(
+                    'assets/icons/follower 1.svg',
+                    height: 20,
+                    width: 20,
+                  ),
                   Text(followers, style: textTheme.titleLarge),
                 ],
               ),

@@ -1,96 +1,116 @@
 import 'package:event_app/module/data/datasource/event_venue_details_source.dart';
-import 'package:event_app/module/domain/entities/event_venue_detail_entities.dart';
 import 'package:event_app/module/domain/repository/event_venue_details_repo.dart';
+import 'package:event_app/module/domain/entities/event_venue_detail_entity.dart';
 
 class EventVenueDetailsRepoImpl extends EventVenueDetailsRepo {
   final EventVenueDetailsSource datasource;
   EventVenueDetailsRepoImpl({required this.datasource});
 
   @override
-  Future<List<EventVenueDetailsEntities>> getEventVenueDetails() async {
+  Future<List<EventVenueDetails>> getEventVenueDetails() async {
     final eventVenueDetails = await datasource.getEventVenueDetails();
     return eventVenueDetails
         .map(
-          (prop) => EventVenueDetailsEntities(
+          (prop) => EventVenueDetails(
             id: prop.id,
             image: prop.image,
-           
-            // eventEntities: EventEntities(
-            //   id: prop.eventModels!.id,
-            //   name: prop.eventModels!.name,
-            //   about: prop.eventModels!.about,
-            //   venue: prop.eventModels!.venue,
-            //   ageConstraint: prop.eventModels!.ageConstraint,
-            //   dateRangeEntities: DateRangeEntities(
-            //     startDatetime: prop.eventModels!.dateRangeModels!.startDatetime,
-            //     endDatetime: prop.eventModels!.dateRangeModels!.endDatetime,
-            //   ),
-            //   language: prop.eventModels!.language,
-            //   category: prop.eventModels!.category,
-            //   subcategory: prop.eventModels!.subcategory,
-            //   eventType: prop.eventModels!.eventType,
-            //   artistsEntities: prop.eventModels!.artistsModels
-            //       .map((artist) => ArtistEntities(
-            //             id: artist.id,
-            //             name: artist.name,
-            //             image: artist.image,
-            //           ))
-            //       .toList(),
-            //   eventContent: prop.eventModels!.eventContent,
-            //   image: prop.eventModels!.image,
-            //   isExclusive: prop.eventModels!.isExclusive,
-            //   interestedCount: prop.eventModels!.interestedCount,
-            //   isInterested: prop.eventModels!.isInterested,
-            //   isFree: prop.eventModels!.isFree,
-            //   amountRange: prop.eventModels!.amountRange,
-            //   organizerEntities: OrganizerEntities(
-            //     id: prop.eventModels!.organizerModels!.id,
-            //     name: prop.eventModels!.organizerModels!.name,
-            //     description: prop.eventModels!.organizerModels!.description,
-            //     isFollowed: prop.eventModels!.organizerModels!.isFollowed,
-            //     image: prop.eventModels!.organizerModels!.image,
-            //     totalFollowersCount: prop.eventModels!.organizerModels!.totalFollowersCount,
-            //   ),
-            //   metadataJsonEntities: MetadataJsonEntities(
-            //     ogEntities: OgEntities(
-            //       url: prop.eventModels!.metadataJsonModels!.ogModels.url,
-            //       image: prop.eventModels!.metadataJsonModels!.ogModels.image,
-            //     ),
-            //     title: prop.eventModels!.metadataJsonModels!.title,
-            //     keywords: prop.eventModels!.metadataJsonModels!.keywords,
-            //     description: prop.eventModels!.metadataJsonModels!.description,
-            //   ),
-            // ),
-            startDatetime: prop.startDatetime,
-            hasRegistration: prop.hasRegistration,
-            fillAllParticipant: prop.fillAllParticipant,
-            tableReservationUrl: prop.tableReservationUrl,
 
-            // venueEntities: VenueEntities(
-            //   id: prop.venueModels!.id,
-            //   name: prop.venueModels!.name,
-            //   city: prop.venueModels!.city,
-            //   address: prop.venueModels!.address,
-            //   geoLocationEntities: GeoLocationEntities(
-            //     latitude: prop.venueModels!.geoLocationModels.latitude,
-            //     longitude: prop.venueModels!.geoLocationModels.longitude,
-            //   ),
-            //   googleMapUrl: prop.venueModels!.googleMapUrl,
-            // ),
-            status: prop.status,
-            endDatetime: prop.endDatetime,
-            ticketOptions: prop.ticketOptions,
-            termsAndCondition: prop.termsAndCondition,
-
-            // metadataJsonEntities: MetadataJsonEntities(
-            //   ogEntities: OgEntities(
-            //     url: prop.metadataJsonModels!.ogModels.url,
-            //     image: prop.metadataJsonModels!.ogModels.image,
-            //   ),
-            //   title: prop.metadataJsonModels!.title,
-            //   keywords: prop.metadataJsonModels!.keywords,
-            //   description: prop.metadataJsonModels!.description,
-            // ),
+            event: Event(
+              id: prop.event?.id,
+              name: prop.event?.name,
+              about: prop.event?.about,
+              organizer:
+                  prop.event?.organizer != null
+                      ? Organizer(
+                        id: prop.event!.organizer!.id,
+                        name: prop.event!.organizer!.name,
+                        description: prop.event!.organizer!.description,
+                        isFollowed: prop.event!.organizer!.isFollowed,
+                        image: prop.event!.organizer!.image,
+                        totalFollowersCount:
+                            prop.event!.organizer!.totalFollowersCount,
+                      )
+                      : null,
+                metadata_json: prop.event?.metadata_json != null
+                  ? MetaDataJson(
+                    og: prop.event?.metadata_json?.og != null
+                      ? Og(
+                        url: prop.event!.metadata_json!.og!.url,
+                        image: prop.event!.metadata_json!.og!.image,
+                      )
+                      : null,
+                    title: prop.event!.metadata_json!.title,
+                    keywords: prop.event!.metadata_json!.keywords != null
+                      ? List<String>.from(prop.event!.metadata_json!.keywords!)
+                      : null,
+                    description: prop.event!.metadata_json!.description,
+                  )
+                  : null,
+              event_type: prop.event?.event_type,
+              date_range: prop.event?.date_range,
+              age_constraint: prop.event?.age_constraint,
+              language: prop.event?.language,
+              artists:
+                  prop.event?.artists != null
+                      ? prop.event!.artists!
+                          .map(
+                            (artist) => Artist(
+                              id: artist.id,
+                              name: artist.name,
+                              image: artist.image,
+                            ),
+                          )
+                          .toList()
+                      : null,
+              category: prop.event?.category,
+              subcategory: prop.event?.subcategory,
+              amount_range:
+                  prop.event?.amount_range != null
+                      ? AmountRange(
+                        highest_amount:
+                            prop.event!.amount_range!.highest_amount,
+                        lowest_amount: prop.event!.amount_range!.lowest_amount,
+                      )
+                      : null,
+            ),
+            terms_and_condition: prop.terms_and_condition,
+            venue: Venue(
+              id: prop.venue!.id,
+              name: prop.venue!.name,
+              address: prop.venue!.address,
+              city: prop.venue!.city,
+              geolocation:
+                  prop.venue!.geolocation != null
+                      ? Geolocation(
+                        latitude: prop.venue!.geolocation!.latitude,
+                        longitude: prop.venue!.geolocation!.longitude,
+                      )
+                      : null,
+              google_map_url: prop.venue!.google_map_url,
+              // googleMapUrl: prop.venue!.googleMapUrl,
+            ),
+            start_datetime: prop.start_datetime,
+            ticket_options:
+                prop.ticket_options
+                    ?.map(
+                      (ticketOption) => TicketOptions(
+                        id: ticketOption.id,
+                        name: ticketOption.name,
+                        description: ticketOption.description,
+                        tag: ticketOption.tag,
+                        status: ticketOption.status,
+                        amount: ticketOption.amount,
+                        amount_type: ticketOption.amount_type,
+                        number_of_participant:
+                            ticketOption.number_of_participant,
+                        number_of_free_participant:
+                            ticketOption.number_of_free_participant,
+                        app_amount: ticketOption.app_amount,
+                        sales_start_datetime: ticketOption.sales_start_datetime,
+                        sales_end_datetime: ticketOption.sales_end_datetime,
+                      ),
+                    )
+                    .toList(),
           ),
         )
         .toList();

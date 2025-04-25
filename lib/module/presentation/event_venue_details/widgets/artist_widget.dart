@@ -1,6 +1,8 @@
-import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
+import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_detail_cubit.dart';
+import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_details_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ArtistsWidget extends StatelessWidget {
   const ArtistsWidget({super.key});
@@ -8,44 +10,6 @@ class ArtistsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = TextThemes.createTextTheme(context);
-    final artists = [
-      {
-        'name': 'Artist 1',
-        'art': 'Artist',
-        'image':
-            'https://plus.unsplash.com/premium_photo-1668430856694-62c7753fb03b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
-      },
-      {
-        'name': 'Artist 1',
-        'art': 'Comedian',
-        'image':
-            'https://plus.unsplash.com/premium_photo-1668430856694-62c7753fb03b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
-      },
-      {
-        'name': 'Artist 1',
-        'art': 'Artist',
-        'image':
-            'https://plus.unsplash.com/premium_photo-1668430856694-62c7753fb03b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
-      },
-      {
-        'name': 'Artist 1',
-        'art': 'Artist',
-        'image':
-            'https://plus.unsplash.com/premium_photo-1668430856694-62c7753fb03b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
-      },
-      {
-        'name': 'Artist 1',
-        'art': 'Artist',
-        'image':
-            'https://plus.unsplash.com/premium_photo-1668430856694-62c7753fb03b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
-      },
-      {
-        'name': 'Artist 1',
-        'art': 'Artist',
-        'image':
-            'https://plus.unsplash.com/premium_photo-1668430856694-62c7753fb03b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
-      },
-    ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,31 +18,44 @@ class ArtistsWidget extends StatelessWidget {
         const SizedBox(height: 10),
         SizedBox(
           height: 150,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: artists.length,
-            itemBuilder: (context, index) {
-              final artist = artists[index];
-              return Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 40,
-                      backgroundImage: NetworkImage(artist['image']!),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(artist['name']!, style: textTheme.titleMedium),
-                    const SizedBox(height: 5),
-                    Text(
-                      artist['art']!,
-                      style: textTheme.titleSmall!.copyWith(
-                        color: AppColors.textSecondaryColor,
+          child: BlocBuilder<EventVenueDetailCubit, EventVenueDetailsState>(
+            builder: (context, state) {
+              if (state is EventVenueDetailsLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is EventVenueDetailsError) {
+                return Center(child: Text(state.errorMessage));
+              } else if (state is EventVenueDetailsLoaded) {
+                return ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.eventVenueDetails[0].event?.artists?.length,
+                  itemBuilder: (context, index) {
+                    final artist =
+                        state.eventVenueDetails[0].event?.artists?[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundImage: NetworkImage(artist?.image ?? ''),
+                          ),
+                          const SizedBox(height: 5),
+                          SizedBox(
+                            width: 90,
+                            child: Text(
+                              artist?.name ?? '',
+                              style: textTheme.titleMedium,
+                              maxLines: 2,
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              );
+                    );
+                  },
+                );
+              }
+              return const SizedBox.shrink();
             },
           ),
         ),

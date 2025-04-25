@@ -1,10 +1,16 @@
-
 import 'package:event_app/core/config/themes/colors.dart';
-import 'package:flutter/material.dart' show BuildContext, FontWeight, TextOverflow, TextStyle, TextTheme;
+import 'package:flutter/material.dart'
+    show BuildContext, FontWeight, TextOverflow, TextStyle, TextTheme;
 
 class TextThemes {
   static TextTheme createTextTheme(BuildContext context) {
     return TextTheme(
+      headlineMedium: TextStyle(
+        fontSize: 32,
+        color: AppColors.textPrimaryColor,
+        overflow: TextOverflow.ellipsis,
+        fontWeight: FontWeight.w500,
+      ),
       headlineSmall: TextStyle(
         fontSize: 24,
         color: AppColors.textPrimaryColor,
@@ -16,7 +22,7 @@ class TextThemes {
         fontSize: 20,
         color: AppColors.textPrimaryColor,
         overflow: TextOverflow.ellipsis,
-        fontWeight: FontWeight.w500
+        fontWeight: FontWeight.w500,
       ),
 
       titleLarge: TextStyle(
@@ -38,7 +44,7 @@ class TextThemes {
         color: AppColors.textPrimaryColor,
         overflow: TextOverflow.ellipsis,
       ),
-      
+
       bodyMedium: TextStyle(
         fontSize: 12,
         color: AppColors.textPrimaryColor,

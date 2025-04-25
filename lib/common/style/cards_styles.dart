@@ -9,15 +9,14 @@ import 'package:flutter/material.dart'
         BuildContext,
         Card,
         CircleAvatar,
-        Colors,
         EdgeInsets,
-        Icon,
-        IconButton,
         Padding,
         RoundedRectangleBorder,
         Text,
+        TextButton,
         VoidCallback,
         Widget;
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CardThemees {
   static Card createEmptyCard(BuildContext context, Widget child) {
@@ -36,15 +35,15 @@ class CardThemees {
     BuildContext context,
     String day,
     String date,
-    String month,
-    String year,
+    String monthYear,
     String dateTime,
     String location,
-    Icon dateTimeIcon,
-    Icon locationIcon,
-    Icon icon,
-    Icon actionIcon,
+    SvgPicture dateTimeIcon,
+    SvgPicture locationIcon,
+    SvgPicture icon,
+    Image actionIcon,
     VoidCallback onTap,
+    VoidCallback onPressed,
   ) {
     final textTheme = TextThemes.createTextTheme(context);
     return Card(
@@ -70,20 +69,20 @@ class CardThemees {
                 ),
               ),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(day.substring(0, 3), style: textTheme.titleMedium),
                   SizedBox(height: 2),
-                  Text(date, style: textTheme.headlineSmall),
+                  Text(date.substring(5, 7), style: textTheme.headlineMedium),
                   SizedBox(height: 2),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(month.substring(0, 3), style: textTheme.titleMedium),
-                      const SizedBox(width: 5),
-                      Text(year, style: textTheme.titleMedium),
+                      Text(
+                        monthYear.substring(8, 16),
+                        style: textTheme.titleMedium,
+                      ),
                     ],
                   ),
                 ],
@@ -99,9 +98,7 @@ class CardThemees {
             ),
 
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: CommonStyle.contanersPadding,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -121,16 +118,21 @@ class CardThemees {
                   Row(
                     children: [
                       icon,
-                      Text('Map', style: textTheme.titleMedium),
-                      SizedBox(width: 180),
+                      TextButton(
+                        onPressed: onPressed,
+                        child: Text('Map', style: textTheme.titleMedium),
+                      ),
+                      SizedBox(width: 170),
                       CircleAvatar(
                         radius: 15,
-                        backgroundColor: AppColors.brandPrimaryColor,
-                        child: IconButton(
-                          onPressed: onTap,
-                          icon: actionIcon,
-                          iconSize: 14,
-                          color: Colors.white,
+                        backgroundColor: AppColors.textPrimaryColor,
+                        child: GestureDetector(
+                          onTap: onTap,
+                          child: Image.asset(
+                            'assets/images/Vector.png',
+                            width: 15,
+                            height: 15,
+                          ),
                         ),
                       ),
                     ],

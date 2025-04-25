@@ -45,9 +45,7 @@ class EventScreen extends StatelessWidget {
       context.read<EventVenueDetailCubit>().getEventVenueDetails();
     });
     final textTheme = TextThemes.createTextTheme(context);
-    final title = [
-      {'test': 'Sajan Raj Vaidya World Tour'},
-    ];
+
     return Scaffold(
       backgroundColor: AppColors.buttonlevelSecondaryColor,
       body: DefaultTabController(
@@ -69,18 +67,19 @@ class EventScreen extends StatelessWidget {
                             child: CircularProgressIndicator(),
                           );
                         } else if (state is EventVenueDetailsLoaded) {
-                          
                           return FlexibleSpaceBar(
                             titlePadding: EdgeInsetsDirectional.only(
                               start: 40,
                               bottom: 16,
                             ),
                             title: Text(
-                              title[0]['test']!,
+                              state.eventVenueDetails[0].event?.name ??
+                                  'Event Name',
                               style: textTheme.titleLarge,
                             ),
                             background: Image.network(
-                              state.eventVenueDetails[0].image,
+                              state.eventVenueDetails[0].image ??
+                                  'https://via.placeholder.com/150',
                               fit: BoxFit.cover,
                               errorBuilder: (context, error, stackTrace) {
                                 return Center(
@@ -103,8 +102,7 @@ class EventScreen extends StatelessWidget {
                         }
                       },
                     ),
-                
-                
+
                 leading: IconButton(
                   icon: Icon(
                     Icons.arrow_back,
@@ -233,13 +231,49 @@ class EventScreen extends StatelessWidget {
                 Container(
                   key: meetOrganizerkey,
                   alignment: Alignment.center,
-                  child: OrganizerWidget(
-                    title: 'Organizer Name',
-                    organizer: 'Organizer',
-                    followers: '150 Followers',
-                    image: NetworkImage(
-                      'https://plus.unsplash.com/premium_photo-1668430856694-62c7753fb03b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
-                    ),
+                  // child: OrganizerDetailsScreen(),
+                  child: BlocBuilder<
+                    EventVenueDetailCubit,
+                    EventVenueDetailsState
+                  >(
+                    builder: (context, state) {
+                      if (state is EventVenueDetailsLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is EventVenueDetailsLoaded) {
+                        return OrganizerWidget(
+                          title:
+                              state
+                                  .eventVenueDetails[0]
+                                  .event
+                                  ?.organizer
+                                  ?.name ??
+                              'Organizer Name',
+                          organizer:
+                              state
+                                  .eventVenueDetails[0]
+                                  .event
+                                  ?.organizer
+                                  ?.name ??
+                              'Organizer',
+                          followers:
+                              '${state.eventVenueDetails[0].event?.organizer?.totalFollowersCount ?? 0} Followers',
+                          image: NetworkImage(
+                            state
+                                    .eventVenueDetails[0]
+                                    .event
+                                    ?.organizer
+                                    ?.image ??
+                                'https://plus.unsplash.com/premium_photo-1668430856694-62c7753fb03b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8',
+                          ),
+                        );
+                      } else if (state is EventVenueDetailsError) {
+                        return const Center(
+                          child: Text('Error loading organizer details'),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
                   ),
                 ),
                 Divider(color: AppColors.strokeColor, thickness: 2),

@@ -4,24 +4,22 @@ import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:event_app/module/presentation/cubit/expandable_card_cubit.dart';
+import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_detail_cubit.dart';
+import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_details_state.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/expanded_widget.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TicketWidget extends StatelessWidget {
   const TicketWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final itemList = 5;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final expandCubit = context.read<ExpandCubit>();
-      if (expandCubit.state.isEmpty) {
-        expandCubit.initializeList(itemList);
-      }
-    });
     final textTheme = TextThemes.createTextTheme(context);
+
     return Column(
       children: [
         Row(
@@ -30,7 +28,6 @@ class TicketWidget extends StatelessWidget {
               flex: 6,
               child: Text('Select Venues', style: textTheme.headlineSmall),
             ),
-
             Expanded(
               child: SizedBox(
                 height: 30,
@@ -51,10 +48,10 @@ class TicketWidget extends StatelessWidget {
                     ),
                     padding: EdgeInsets.zero,
                   ),
-                  child: Icon(
-                    size: 20,
-                    Icons.filter_1_sharp,
-                    color: AppColors.textPrimaryColor,
+                  child: SvgPicture.asset(
+                    'assets/icons/filter.svg',
+                    height: 20,
+                    width: 20,
                   ),
                 ),
               ),
@@ -77,39 +74,77 @@ class TicketWidget extends StatelessWidget {
             ),
           ],
         ),
-        BlocBuilder<ExpandCubit, List<bool>>(
-          builder: (context, isExpandedList) {
-            return ListView.builder(
-              itemCount: itemList,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    CardThemees.venueCard(
-                      context,
-                      'Friday',
-                      '23',
-                      'Janaury',
-                      '2024',
-                      '7:15 PM - 10:15 PM ',
-                      'Catwalk, Lakeside : Pokhara',
-                      Icon(Icons.safety_check_outlined),
-                      Icon(Icons.location_on_outlined),
-                      Icon(Icons.check_circle_outline),
-                      Icon(Icons.local_activity),
-                      () {
-                        if (index < isExpandedList.length) {
-                          context.read<ExpandCubit>().toggleExpand(index);
-                        }
-                      },
-                    ),
-                    if (index < isExpandedList.length && isExpandedList[index])
-                      ExpandedWidget(),
-                  ],
-                );
-              },
-            );
+        BlocBuilder<EventVenueDetailCubit, EventVenueDetailsState>(
+          builder: (context, state) {
+            if (state is EventVenueDetailsLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is EventVenueDetailsError) {
+              return Center(child: Text(state.errorMessage));
+            } else if (state is EventVenueDetailsLoaded) {
+              final venueList = state.eventVenueDetails;
+              final expandCubit = context.read<ExpandCubit>();
+              // final mapUrl = state.eventVenueDetails[0].event?.
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (expandCubit.state.length != venueList.length) {
+                  expandCubit.initializeList(venueList.length);
+                }
+              });
+
+              return BlocBuilder<ExpandCubit, List<bool>>(
+                builder: (context, isExpandedList) {
+                  return ListView.builder(
+                    itemCount: venueList.length,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final venue = venueList[index].venue;
+                      return Column(
+                        children: [
+                          CardThemees.venueCard(
+                            context,
+                            state.eventVenueDetails[0].start_datetime ?? '',
+                            state.eventVenueDetails[0].start_datetime ?? '',
+                            state.eventVenueDetails[0].start_datetime ?? '',
+                            venue?.name ?? '',
+                            venue?.address ?? '',
+                            SvgPicture.asset('assets/icons/Time.svg'),
+                            SvgPicture.asset(
+                              'assets/icons/pinched location.svg',
+                            ),
+                            SvgPicture.asset('assets/icons/Amp.svg'),
+                            Image.asset('assets/images/Vector.png'),
+
+                            () {
+                              if (index < isExpandedList.length) {
+                                expandCubit.toggleExpand(index);
+                              }
+                            },
+                            () async {
+                              final url = venue?.google_map_url;
+                              if (url != null && Uri.tryParse(url)?.hasAbsolutePath == true) {
+                                final parsedUrl = Uri.parse(url);
+                                if (!await launchUrl(
+                                  parsedUrl,
+                                  mode: LaunchMode.inAppWebView,
+                                )) {
+                                  throw Exception('Could not launch $parsedUrl');
+                                }
+                              } else {
+                                throw ArgumentError('Invalid or missing URL: $url');
+                              }
+                            },
+                          ),
+                          if (index < isExpandedList.length &&
+                              isExpandedList[index])
+                            const ExpandedWidget(),
+                        ],
+                      );
+                    },
+                  );
+                },
+              );
+            }
+            return const SizedBox.shrink();
           },
         ),
       ],
