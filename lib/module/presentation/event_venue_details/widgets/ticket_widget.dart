@@ -10,6 +10,7 @@ import 'package:event_app/module/presentation/event_venue_details/widgets/expand
 import 'package:event_app/module/presentation/event_venue_details/widgets/filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -22,19 +23,20 @@ class TicketWidget extends StatelessWidget {
 
     return Column(
       children: [
+        SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
         Row(
           children: [
             Expanded(
               flex: 6,
-              child: Text('Select Venues', style: textTheme.headlineSmall),
+              child: Text('Select Venues', style: textTheme.titleMedium),
             ),
             Expanded(
               child: SizedBox(
-                height: 30,
-                width: 30,
+                height: 30.h,
+                width: 30.w,
                 child: ElevatedButton(
                   onPressed: () {
-                    BottomSheetStyle.showReevModalBottomSheet(
+                    BottomSheetStyle.showModalsBottomSheet(
                       context,
                       const FilterWidget(),
                     );
@@ -50,21 +52,21 @@ class TicketWidget extends StatelessWidget {
                   ),
                   child: SvgPicture.asset(
                     'assets/icons/filter.svg',
-                    height: 20,
-                    width: 20,
+                    height: 20.h,
+                    width: 20.h,
                   ),
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
         Stack(
           alignment: Alignment.center,
           children: [
             Divider(color: AppColors.strokeColor, thickness: 1),
             Container(
-              padding: const EdgeInsets.symmetric(
+              padding: EdgeInsets.symmetric(
                 horizontal: CommonStyle.screenPadding,
               ),
               decoration: BoxDecoration(
@@ -74,6 +76,7 @@ class TicketWidget extends StatelessWidget {
             ),
           ],
         ),
+        SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
         BlocBuilder<EventVenueDetailCubit, EventVenueDetailsState>(
           builder: (context, state) {
             if (state is EventVenueDetailsLoading) {
@@ -83,7 +86,6 @@ class TicketWidget extends StatelessWidget {
             } else if (state is EventVenueDetailsLoaded) {
               final venueList = state.eventVenueDetails;
               final expandCubit = context.read<ExpandCubit>();
-              // final mapUrl = state.eventVenueDetails[0].event?.
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (expandCubit.state.length != venueList.length) {
                   expandCubit.initializeList(venueList.length);
@@ -121,16 +123,21 @@ class TicketWidget extends StatelessWidget {
                             },
                             () async {
                               final url = venue?.google_map_url;
-                              if (url != null && Uri.tryParse(url)?.hasAbsolutePath == true) {
+                              if (url != null &&
+                                  Uri.tryParse(url)?.hasAbsolutePath == true) {
                                 final parsedUrl = Uri.parse(url);
                                 if (!await launchUrl(
                                   parsedUrl,
                                   mode: LaunchMode.inAppWebView,
                                 )) {
-                                  throw Exception('Could not launch $parsedUrl');
+                                  throw Exception(
+                                    'Could not launch $parsedUrl',
+                                  );
                                 }
                               } else {
-                                throw ArgumentError('Invalid or missing URL: $url');
+                                throw ArgumentError(
+                                  'Invalid or missing URL: $url',
+                                );
                               }
                             },
                           ),

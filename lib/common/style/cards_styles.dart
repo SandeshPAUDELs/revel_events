@@ -1,7 +1,6 @@
 import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
-import 'package:event_app/common/widgets/clipper_widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show
@@ -16,7 +15,9 @@ import 'package:flutter/material.dart'
         TextButton,
         VoidCallback,
         Widget;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ticket_clippers/ticket_clippers.dart';
 
 class CardThemees {
   static Card createEmptyCard(BuildContext context, Widget child) {
@@ -52,96 +53,116 @@ class CardThemees {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(CommonStyle.borderRadius),
       ),
-      child: SizedBox(
-        height: 120,
-        child: Row(
-          children: [
-            Container(
-              width: 100,
-              padding: const EdgeInsets.symmetric(
-                vertical: CommonStyle.contanersPadding,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.brandPrimaryColor,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  bottomLeft: Radius.circular(12),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Align(
+              child: TicketClipper(
+                clipper: RoundedEdgeClipper(
+                  edge: Edge.right,
+                  points: 8,
+                  depth: 15,
                 ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(day.substring(0, 3), style: textTheme.titleMedium),
-                  SizedBox(height: 2),
-                  Text(date.substring(5, 7), style: textTheme.headlineMedium),
-                  SizedBox(height: 2),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                child: Container(
+                  // padding: EdgeInsets.symmetric(
+                  //   vertical: CommonStyle.contanersPadding,
+                  // ),
+                  decoration: BoxDecoration(
+                    color: AppColors.brandPrimaryColor,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10.0.r),
+                      bottomLeft: Radius.circular(10.0.r),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Text(day.substring(0, 3), style: textTheme.titleMedium),
+                      SizedBox(height: 6.h),
                       Text(
-                        monthYear.substring(8, 16),
-                        style: textTheme.titleMedium,
+                        date.substring(5, 7),
+                        style: textTheme.headlineMedium,
+                      ),
+                      SizedBox(height: 6.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            monthYear.substring(8, 16),
+                            style: textTheme.titleMedium,
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
+          ),
 
-            SizedBox(
-              width: 10,
-              child: ClipPath(
-                clipper: VerticalWaveClipper(),
-                child: Container(color: AppColors.brandPrimaryColor),
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
+          Expanded(
+            flex: 5,
+            child: Padding(
+              padding: EdgeInsets.only(top: 10.h, left: 4.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
                       dateTimeIcon,
+                      SizedBox(width: CommonStyle.horizontalGapBtwnRows),
                       Text(dateTime, style: textTheme.titleMedium),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 6.h),
                   Row(
                     children: [
                       locationIcon,
+                      SizedBox(width: CommonStyle.horizontalGapBtwnRows),
                       Text(location, style: textTheme.titleMedium),
                     ],
                   ),
+                  SizedBox(height: 6.h),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      icon,
-                      TextButton(
-                        onPressed: onPressed,
-                        child: Text('Map', style: textTheme.titleMedium),
+                      Row(
+                        children: [
+                          icon,
+                          TextButton(
+                            onPressed: onPressed,
+                            child: Text('Map', style: textTheme.titleMedium),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 170),
                       CircleAvatar(
-                        radius: 15,
+                        radius: 15.r,
                         backgroundColor: AppColors.textPrimaryColor,
                         child: GestureDetector(
                           onTap: onTap,
                           child: Image.asset(
                             'assets/images/Vector.png',
-                            width: 15,
-                            height: 15,
+                            width: 15.w,
+                            height: 15.h,
                           ),
                         ),
                       ),
+                      //  CircleAvatar(
+                      //         backgroundColor: Colors.black54,
+                      //         child: Icon(
+                      //           Icons.favorite_border,
+                      //           color: Colors.white,
+                      //           size: 20.h,
+                      //         ),
+                      //       ),
                     ],
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

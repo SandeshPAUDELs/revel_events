@@ -10,44 +10,44 @@ class BottonNavWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = TextThemes.createTextTheme(context);
     return Container(
-        color: AppColors.cardBackgroundColor,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Text(
-                  'Rs 10,000 ',
-                  style: textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w700
-                  ),
-                  
-                ),
-                Text('onwards', 
-                  style: textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-            ElevatedButton(
-              style: ButtonThemes.elevateButtonStyl(
-                context,
-                AppColors.textPrimaryColor,
-                AppColors.buttonlevelSecondaryColor,
-              ),
-              onPressed: () {},
-              child: Text(
-                'Buy Ticket',
-                style: textTheme.titleMedium!.copyWith(
-                  color: AppColors.buttonlevelSecondaryColor,
-                  fontWeight: FontWeight.w600,
+      color: AppColors.cardBackgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Text(
+                'Rs 10,000 ',
+                style: textTheme.titleSmall!.copyWith(
+                  fontWeight: FontWeight.w700,
                 ),
               ),
+              Text(
+                'onwards',
+                style: textTheme.bodyMedium!.copyWith(
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+          ElevatedButton(
+            style: ButtonThemes.elevateButtonStyl(
+              context,
+              AppColors.textPrimaryColor,
+              AppColors.buttonlevelSecondaryColor,
             ),
-          ],
-        ),
-      );
+            onPressed: () {},
+            child: Text(
+              'Buy Ticket',
+              style: textTheme.titleSmall!.copyWith(
+                color: AppColors.buttonlevelSecondaryColor,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

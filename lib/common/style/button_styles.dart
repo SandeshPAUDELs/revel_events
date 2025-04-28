@@ -11,17 +11,15 @@ import 'package:flutter/material.dart'
         EdgeInsetsGeometry,
         ElevatedButton,
         Icon,
-        MediaQuery,
         RoundedRectangleBorder,
         SizedBox,
         VoidCallback;
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ButtonThemes {
   static EdgeInsetsGeometry responsivehalfPadding(BuildContext context) {
-    double paddingPercent = 0.05; // 5% of the screen width
-    double paddingHorizontal =
-        MediaQuery.sizeOf(context).width * paddingPercent;
-    double paddingVertical = 16.0;
+    double paddingHorizontal = 40.w;
+    double paddingVertical = 7.h;
     return EdgeInsets.symmetric(
       horizontal: paddingHorizontal,
       vertical: paddingVertical,
@@ -34,8 +32,8 @@ class ButtonThemes {
     VoidCallback onTap,
   ) {
     return SizedBox(
-      height: 20,
-      width: 20,
+      height: 20.h,
+      width: 20.w,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
@@ -65,6 +63,21 @@ class ButtonThemes {
     );
   }
 
+  static ButtonStyle elevateButtonStyleForOrganizer(
+    BuildContext context,
+    Color backgroundColor,
+    Color textColor,
+  ) {
+    return ElevatedButton.styleFrom(
+      backgroundColor: backgroundColor,
+      foregroundColor: textColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(CommonStyle.borderRadius),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 7.h),
+    );
+  }
+
   static ButtonStyle elevateButtonStyleforStroke(
     BuildContext context,
     Color backgroundColor,
@@ -77,7 +90,10 @@ class ButtonThemes {
         borderRadius: BorderRadius.circular(CommonStyle.borderRadius),
         side: BorderSide(color: AppColors.strokeColor, width: 1),
       ),
-      padding: responsivehalfPadding(context),
+      padding: EdgeInsets.symmetric(
+        horizontal: CommonStyle.contanersPadding,
+        vertical: CommonStyle.contanersPadding,
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_detail_cubit.dart';
@@ -20,8 +21,8 @@ class TermsAndConditions extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Terms and Conditions', style: textTheme.bodySmall),
-              const SizedBox(height: 10),
+              Text('Terms and Conditions', style: textTheme.titleLarge),
+               SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
               Html(
                 data:
                     state.eventVenueDetails[0].terms_and_condition ??

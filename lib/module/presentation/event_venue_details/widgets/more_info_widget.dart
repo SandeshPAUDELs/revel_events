@@ -1,3 +1,4 @@
+import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_detail_cubit.dart';
 import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_details_state.dart';
@@ -23,14 +24,13 @@ class MoreInfoWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('More Info', style: textTheme.bodySmall),
-              const SizedBox(height: 10),
+              Text('More Info', style: textTheme.titleLarge),
+              SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SvgPicture.asset('assets/icons/line.svg'),
-
-                  const SizedBox(width: 5),
+                  SizedBox(width: CommonStyle.horizontalGapINMoreInfo),
                   Text(
                     (state.eventVenueDetails[0].event?.event_type?.join(', ') ??
                         'Outdoor'),
@@ -38,33 +38,27 @@ class MoreInfoWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: CommonStyle.verticalGapINMoreInfo),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: SvgPicture.asset('assets/icons/Time.svg'),
-                  ),
-                  const SizedBox(width: 5),
-                  Expanded(
-                    flex: 12,
-                    child: Text(
-                      state.eventVenueDetails[0].event?.date_range != null
-                          ? '${state.eventVenueDetails[0].event!.date_range!['start_datetime']} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']}'
-                          : '7:15 PM - 10:15 PM',
-                      maxLines: 2,
-                      style: textTheme.titleMedium,
-                    ),
+                  SvgPicture.asset('assets/icons/Time.svg'),
+                  SizedBox(width: CommonStyle.horizontalGapINMoreInfo),
+                  Text(
+                    state.eventVenueDetails[0].event?.date_range != null
+                        ? '${state.eventVenueDetails[0].event!.date_range!['start_datetime']!.substring(19, 27)} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']!.substring(19, 27)}'
+                        : '7:15 PM - 10:15 PM',
+                    maxLines: 2,
+                    style: textTheme.titleMedium,
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SvgPicture.asset('assets/icons/Langauge.svg'),
-                  const SizedBox(width: 5),
+                  SizedBox(width: CommonStyle.horizontalGapINMoreInfo),
                   Text(
                     (state.eventVenueDetails[0].event?.language?.join(', ') ??
                         'Nepali, English'),
@@ -73,12 +67,12 @@ class MoreInfoWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SvgPicture.asset('assets/icons/Age aloowed.svg'),
-                  const SizedBox(width: 5),
+                  SizedBox(width: CommonStyle.horizontalGapINMoreInfo),
                   Text(
                     state.eventVenueDetails[0].event?.age_constraint ??
                         '18 ys +',

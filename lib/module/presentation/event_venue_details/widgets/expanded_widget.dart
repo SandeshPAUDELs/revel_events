@@ -8,6 +8,7 @@ import 'package:event_app/module/presentation/event_venue_details/cubits/event_v
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ExpandedWidget extends StatelessWidget {
   const ExpandedWidget({super.key});
@@ -30,64 +31,62 @@ class ExpandedWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               final ticket = ticketOptions[index];
               return Padding(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: CommonStyle.screenPadding,
                   vertical: CommonStyle.screenPadding,
                 ),
                 child: Column(
                   children: [
+                    SizedBox(height: 16.h),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          flex: 6,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                ticket.name ?? 'Ticket Phase',
-                                style: textTheme.titleLarge,
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                '${ticket.amount}/${ticket.amount_type}',
-                                style: textTheme.titleSmall,
-                              ),
-                            ],
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              ticket.name ?? 'Ticket Phase',
+                              style: textTheme.titleLarge,
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              '${ticket.amount}/${ticket.amount_type}',
+                              style: textTheme.titleSmall,
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          flex: 6,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ButtonThemes.incrementDecrementButton(
-                                context,
-                                Icon(
-                                  Icons.remove,
-                                  color: AppColors.brandPrimaryColor,
-                                ),
-                                () {}, // Decrement logic
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ButtonThemes.incrementDecrementButton(
+                              context,
+                              Icon(
+                                Icons.remove,
+                                size: 14.w,
+                                color: AppColors.brandPrimaryColor,
                               ),
-                              const SizedBox(width: 5),
-                              Text(
-                                ticket.number_of_participant.toString(),
-                                style: textTheme.titleLarge,
+                              () {}, // Decrement logic
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              ticket.number_of_participant.toString(),
+                              style: textTheme.titleLarge,
+                            ),
+                            const SizedBox(width: 5),
+                            ButtonThemes.incrementDecrementButton(
+                              context,
+                              Icon(
+                                Icons.add,
+                                size: 14.w,
+                                color: AppColors.brandPrimaryColor,
                               ),
-                              const SizedBox(width: 5),
-                              ButtonThemes.incrementDecrementButton(
-                                context,
-                                Icon(
-                                  Icons.add,
-                                  color: AppColors.brandPrimaryColor,
-                                ),
-                                () {}, // Increment logic
-                              ),
-                            ],
-                          ),
+                              () {}, // Increment logic
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 12.h),
                     Card(
                       color: AppColors.buttonlevelSecondaryColor,
                       shape: RoundedRectangleBorder(
@@ -98,14 +97,12 @@ class ExpandedWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(
-                          CommonStyle.contanersPadding,
-                        ),
+                        padding: EdgeInsets.all(CommonStyle.contanersPadding),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Other Details', style: textTheme.titleLarge),
-                            const SizedBox(height: 5),
+                            SizedBox(height: 4.h),
                             Html(
                               data:
                                   state
@@ -122,7 +119,7 @@ class ExpandedWidget extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10.h),
                     SizedBox(
                       width: double.infinity,
                       child: CustomPaint(painter: DashedLinePainter()),

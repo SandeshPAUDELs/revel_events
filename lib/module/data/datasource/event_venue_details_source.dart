@@ -1,21 +1,20 @@
-import 'package:dio/dio.dart';
-import 'package:event_app/module/data/datasource/url.dart';
+import 'package:event_app/core/network/dio.dart';
+import 'package:event_app/core/network/url.dart';
 import 'package:event_app/module/data/models/event_venue_detail_model.dart';
 
 abstract class EventVenueDetailsSource {
-  // Future<List<EventVenueDetailsModels>> getEventVenueDetails();
   Future<List<EventVenueDetails>> getEventVenueDetails();
 }
 
 class EventVenueDetailsDataSourceImpl extends EventVenueDetailsSource {
   final String baseUrl = ApiUrl.baseUrl;
-  final Dio dio;
+  final DioClient dio;
   EventVenueDetailsDataSourceImpl({required this.dio});
 
   @override
   Future<List<EventVenueDetails>> getEventVenueDetails() async {
     try {
-      final response = await dio.get(baseUrl);
+      final response = await dio.getRequest(path: baseUrl);
       print('Response: ${response.data}');
       if (response.data is Map<String, dynamic>) {
         return [EventVenueDetails.fromJson(response.data)];

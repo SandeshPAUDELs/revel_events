@@ -1,3 +1,4 @@
+import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_detail_cubit.dart';
@@ -22,7 +23,8 @@ class AboutUsWidget extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('About Us', style: textTheme.bodySmall),
+              Text('About Us', style: textTheme.titleLarge),
+              SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
               ExpandableText(
                 backgroundColor: AppColors.buttonlevelSecondaryColor,
                 textWidget: Text(

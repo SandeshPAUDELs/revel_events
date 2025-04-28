@@ -7,6 +7,7 @@ import 'package:event_app/module/presentation/event_venue_details/cubits/event_v
 import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_details_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DesccribeEvents extends StatelessWidget {
@@ -29,7 +30,7 @@ class DesccribeEvents extends StatelessWidget {
               Row(
                 children: [
                   Wrap(
-                    spacing: CommonStyle.contanersPadding,
+                    spacing: CommonStyle.gap1horizontal,
                     children:
                         (state.eventVenueDetails[0].event?.category ??
                                 ['High in Demand', 'Limited Booking'])
@@ -44,11 +45,11 @@ class DesccribeEvents extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: CommonStyle.gap1Vertical),
               Row(
                 children: [
                   Wrap(
-                    spacing: CommonStyle.contanersPadding,
+                    spacing: CommonStyle.gap1horizontal,
                     children:
                         (state.eventVenueDetails[0].event?.subcategory ??
                                 ['Pop', 'Rok'])
@@ -63,7 +64,7 @@ class DesccribeEvents extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: CommonStyle.gap1Vertical),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -71,10 +72,11 @@ class DesccribeEvents extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         'assets/icons/pinched location.svg',
-                        height: 20,
-                        width: 20,
+                        height: 14.h,
+                        width: 14.w,
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: CommonStyle.gapBetweenIconsAndText),
+
                       Text(
                         state.eventVenueDetails[0].venue?.name ??
                             'Unknown Venue',
@@ -82,20 +84,20 @@ class DesccribeEvents extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: CommonStyle.gap1Vertical),
                   SizedBox(
                     width: double.infinity,
                     child: Row(
                       children: [
                         SvgPicture.asset(
                           'assets/icons/Calender.svg',
-                          height: 20,
-                          width: 20,
+                          height: 14.h,
+                          width: 14.w,
                         ),
-                        const SizedBox(width: 4),
+                        SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                         Expanded(
                           child: Text(
-                            '${state.eventVenueDetails[0].event!.date_range!['start_datetime']} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']}',
+                            '${state.eventVenueDetails[0].event!.date_range!['start_datetime']?.substring(0, 16)} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']?.substring(0, 16)}',
                             style: textTheme.titleSmall,
                             maxLines: 2,
                           ),
@@ -103,7 +105,7 @@ class DesccribeEvents extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: CommonStyle.gap1Vertical),
                   Row(
                     children: [
                       CircleAvatar(
@@ -114,14 +116,14 @@ class DesccribeEvents extends StatelessWidget {
                         ),
                       ),
 
-                      const SizedBox(width: 4),
+                      SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                       Text(
                         'Organized by ${state.eventVenueDetails[0].event?.organizer?.name ?? 'Unknown'}',
                         style: textTheme.bodyMedium,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 6),
+                  SizedBox(height: CommonStyle.gap1Vertical),
                   Row(
                     children: [
                       CircleAvatar(
@@ -129,11 +131,11 @@ class DesccribeEvents extends StatelessWidget {
                         radius: 10,
                         child: SvgPicture.asset(
                           'assets/icons/Vector.svg',
-                          height: 11,
-                          width: 11,
+                          height: 11.h,
+                          width: 11.w,
                         ),
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                       Text(
                         state
                                     .eventVenueDetails[0]
@@ -152,9 +154,9 @@ class DesccribeEvents extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: CommonStyle.gap1Vertical),
               Divider(color: AppColors.textSecondaryColor, thickness: 1),
-              const SizedBox(height: 10),
+              SizedBox(height: CommonStyle.gap1Vertical),
               Text(
                 'Click on Interested to stay updated about this event.',
                 maxLines: 2,
@@ -162,7 +164,7 @@ class DesccribeEvents extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: CommonStyle.gap1Vertical),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -176,9 +178,9 @@ class DesccribeEvents extends StatelessWidget {
                             Icon(
                               Icons.thumb_up_sharp,
                               color: AppColors.brandPrimaryColor,
-                              size: 16,
+                              size: 16.w,
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                             Text(
                               (state
                                           .eventVenueDetails[0]
@@ -206,7 +208,7 @@ class DesccribeEvents extends StatelessWidget {
                   ),
                   Expanded(flex: 1, child: SizedBox()),
                   Expanded(
-                    flex: 3,
+                    flex: 4,
                     child: ElevatedButton(
                       onPressed: () => print('interests'),
                       style: ButtonThemes.elevateButtonStyleforStroke(
@@ -214,7 +216,7 @@ class DesccribeEvents extends StatelessWidget {
                         AppColors.buttonlevelSecondaryColor,
                         AppColors.textSecondaryColor,
                       ),
-                      child: const Text('Interested'),
+                      child: Text('Interested', style: textTheme.titleSmall),
                     ),
                   ),
                 ],

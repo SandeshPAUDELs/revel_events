@@ -19,7 +19,7 @@ class TextFieldsTheme {
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: textTheme.bodyMedium?.copyWith(color: AppColors.textSecondaryColor),
-        border: const OutlineInputBorder(
+        border:  OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(CommonStyle.borderRadius),
           ),

@@ -51,3 +51,37 @@ class VerticalWaveClipper extends CustomClipper<Path> {
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
+// import 'package:flutter/material.dart';
+
+// class VerticalWaveClipper extends CustomClipper<Path> {
+//   @override
+//   Path getClip(Size size) {
+//     final path = Path();
+//     final waveDepth = 8.0; // inward curve
+//     final waveLength = size.height / 4; // space between waves
+    
+//     path.moveTo(0, 0);
+//     path.lineTo(size.width, 0);
+    
+//     // wave pattern
+//     for (double i = 0; i < size.height; i += waveLength) {
+//       path.quadraticBezierTo(
+//         size.width - waveDepth, i + waveLength / 4,
+//         size.width, i + waveLength / 2,
+//       );
+//       path.quadraticBezierTo(
+//         size.width - waveDepth, i + waveLength * 3/4,
+//         size.width, i + waveLength,
+//       );
+//     }
+//     // closing path
+//     path.lineTo(size.width, size.height);
+//     path.lineTo(0, size.height);
+//     path.close();
+    
+//     return path;
+//   }
+
+//   @override
+//   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+// }

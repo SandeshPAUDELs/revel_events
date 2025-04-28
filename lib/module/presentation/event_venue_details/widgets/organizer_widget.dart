@@ -1,7 +1,9 @@
 import 'package:event_app/common/style/button_styles.dart';
+import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class OrganizerWidget extends StatelessWidget {
@@ -22,33 +24,35 @@ class OrganizerWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Meet the Organizer', style: textTheme.bodySmall),
+        Text('Meet the Organizer', style: textTheme.titleLarge),
+        SizedBox(height: CommonStyle.horizontalGapBtwnRows),
         Card(
           color: AppColors.cardBackgroundColor,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               CircleAvatar(
-                radius: 40,
+                radius: 40.r,
                 backgroundImage: NetworkImage(image.url),
               ),
-              const SizedBox(height: 20),
-              Text(title, maxLines: 1, style: textTheme.bodySmall),
-              const SizedBox(height: 5),
+              SizedBox(height: CommonStyle.horizontalGapBtwnRows),
+              Text(title, maxLines: 1, style: textTheme.titleLarge),
+              SizedBox(height: CommonStyle.horizontalGapBtwnRows),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
                     'assets/icons/follower 1.svg',
-                    height: 20,
-                    width: 20,
+                    height: 18.h,
+                    width: 18.h,
                   ),
+                  SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                   Text(followers, style: textTheme.titleLarge),
                 ],
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: CommonStyle.horizontalGapBtwnRows),
               Text(organizer, maxLines: 1, style: textTheme.titleLarge),
-              const SizedBox(height: 5),
+              SizedBox(height: CommonStyle.horizontalGapBtwnRows),
               ElevatedButton(
                 style: ButtonThemes.elevateButtonStyl(
                   context,
@@ -64,6 +68,7 @@ class OrganizerWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              SizedBox(height: CommonStyle.horizontalGapBtwnRows),
             ],
           ),
         ),

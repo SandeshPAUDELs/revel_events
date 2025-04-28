@@ -4,6 +4,7 @@ import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:event_app/core/config/themes/text_field_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FilterWidget extends StatelessWidget {
   const FilterWidget({super.key});
@@ -22,18 +23,18 @@ class FilterWidget extends StatelessWidget {
     final controller = TextEditingController();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: CommonStyle.screenPadding,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: CommonStyle.contanersPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Filters', style: textTheme.bodySmall),
-          SizedBox(height: 8),
+          SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+          Text('Filters', style: textTheme.titleLarge),
+          SizedBox(height: CommonStyle.horizontalGap),
           Divider(color: AppColors.strokeColor, thickness: 2),
-          SizedBox(height: 8),
+          SizedBox(height: CommonStyle.horizontalGap),
+
           Text('Selected Filters', style: textTheme.bodySmall),
-          SizedBox(height: 8),
+          SizedBox(height: CommonStyle.horizontalGap),
           ListView.builder(
             shrinkWrap: true,
             itemCount: selectedFilters.length,
@@ -41,7 +42,10 @@ class FilterWidget extends StatelessWidget {
               return Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(5),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 8.w,
+                      vertical: 6.h,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.cardBackgroundColor,
                       borderRadius: BorderRadius.circular(
@@ -59,7 +63,7 @@ class FilterWidget extends StatelessWidget {
                           onPressed: () {},
                           icon: Icon(
                             Icons.close,
-                            size: 12,
+                            size: 12.h,
                             color: AppColors.textPrimaryColor,
                           ),
                         ),
@@ -71,9 +75,9 @@ class FilterWidget extends StatelessWidget {
             },
           ),
           Divider(color: AppColors.strokeColor, thickness: 2),
-          SizedBox(height: 4),
+          SizedBox(height: CommonStyle.horizontalGap),
           Text('Venue', style: textTheme.bodySmall),
-          SizedBox(height: 4),
+          SizedBox(height: CommonStyle.horizontalGap),
           TextFieldsTheme.createTextField(
             context,
             controller,
@@ -97,11 +101,10 @@ class FilterWidget extends StatelessWidget {
                           ? Icons.check_box
                           : Icons.check_box_outline_blank,
                       color: AppColors.brandPrimaryColor,
-                      size: 20,
+                      size: 20.h,
                     ),
                     () {},
                   ),
-                  // trailing: Icon(Icons.abc),
                 );
               },
             ),
@@ -113,12 +116,11 @@ class FilterWidget extends StatelessWidget {
             ),
           ),
           Divider(color: AppColors.strokeColor, thickness: 2),
+          SizedBox(height: CommonStyle.horizontalGap),
 
           Container(
             color: AppColors.cardBackgroundColor,
-            padding: const EdgeInsets.symmetric(
-              vertical: CommonStyle.screenPadding,
-            ),
+
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -131,7 +133,7 @@ class FilterWidget extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     'Clear All',
-                    style: textTheme.titleMedium!.copyWith(
+                    style: textTheme.titleSmall!.copyWith(
                       color: AppColors.textPrimaryColor,
                       fontWeight: FontWeight.w600,
                     ),
@@ -146,7 +148,7 @@ class FilterWidget extends StatelessWidget {
                   onPressed: () {},
                   child: Text(
                     'Apply Filter',
-                    style: textTheme.titleMedium!.copyWith(
+                    style: textTheme.titleSmall!.copyWith(
                       color: AppColors.buttonlevelSecondaryColor,
                       fontWeight: FontWeight.w600,
                     ),

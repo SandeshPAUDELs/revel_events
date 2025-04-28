@@ -1,7 +1,9 @@
+import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/routes/routes_name.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class RecommendedEventWidget extends StatelessWidget {
@@ -36,15 +38,14 @@ class RecommendedEventWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Recommended Events', style: textTheme.bodySmall),
-        const SizedBox(height: 10),
+        Text('Recommended Events', style: textTheme.titleLarge),
+        SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
         SizedBox(
-          height: 325,
+          height: 330.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
             itemCount: recommendedEvents.length,
-            separatorBuilder: (context, index) => const SizedBox(width: 12),
+            separatorBuilder: (context, index) => SizedBox(width: 12.w),
             itemBuilder: (context, index) {
               final event = recommendedEvents[index];
               return GestureDetector(
@@ -52,10 +53,11 @@ class RecommendedEventWidget extends StatelessWidget {
                   context.push('${event['routes']}');
                 },
                 child: Container(
-                  width: 300,
+                  width: 260.w,
+                  height: 320.h,
                   decoration: BoxDecoration(
                     color: AppColors.cardBackgroundColor,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(16.r),
                     border: Border.all(color: AppColors.strokeColor, width: 1),
                   ),
                   child: Column(
@@ -64,92 +66,110 @@ class RecommendedEventWidget extends StatelessWidget {
                       Stack(
                         children: [
                           ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(16),
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(16.r),
                             ),
                             child: Image.network(
                               event['image']!,
                               width: double.infinity,
-                              height: 160,
+                              height: 160.h,
                               fit: BoxFit.cover,
                             ),
                           ),
-                          const Positioned(
-                            top: 12,
-                            right: 12,
+                          Positioned(
+                            top: 12.h,
+                            right: 12.h,
                             child: CircleAvatar(
                               backgroundColor: Colors.black54,
                               child: Icon(
                                 Icons.favorite_border,
                                 color: Colors.white,
+                                size: 20.h,
                               ),
                             ),
                           ),
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(12),
+                        padding: EdgeInsets.only(
+                          bottom: 12.h,
+                          left: CommonStyle.contanersPadding,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(event['name']!, style: textTheme.titleMedium),
-                            const SizedBox(height: 8),
+                            SizedBox(height: CommonStyle.horizontalGap),
+                            Text(
+                              event['name']!,
+                              style: textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(height: CommonStyle.horizontalGapBtwnRows),
                             Row(
                               children: [
                                 Icon(
                                   Icons.location_on,
                                   color: AppColors.textPrimaryColor,
-                                  size: 16,
+                                  size: 14.w,
                                 ),
-                                const SizedBox(width: 4),
+                                SizedBox(
+                                  width: CommonStyle.gapBetweenIconsAndText,
+                                ),
                                 Text(
                                   event['location']!,
-                                  style: textTheme.titleSmall,
+                                  style: textTheme.bodyMedium,
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: CommonStyle.horizontalGapBtwnRows),
                             Row(
                               children: [
                                 Icon(
                                   Icons.calendar_month,
                                   color: AppColors.textPrimaryColor,
-                                  size: 16,
+                                  size: 14.h,
                                 ),
-                                const SizedBox(width: 4),
+                                SizedBox(
+                                  width: CommonStyle.gapBetweenIconsAndText,
+                                ),
                                 Text(
                                   event['date']!,
-                                  style: textTheme.titleSmall,
+                                  style: textTheme.bodyMedium,
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: CommonStyle.horizontalGapBtwnRows),
                             Row(
                               children: [
                                 Text(
                                   event['organizer']!,
                                   style: textTheme.bodyMedium,
                                 ),
-                                const SizedBox(width: 4),
+                                SizedBox(
+                                  width: CommonStyle.gapBetweenIconsAndText,
+                                ),
                                 Text(
                                   'Organized by ${event['organizer']!}',
                                   style: textTheme.bodyMedium,
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 6),
+                            SizedBox(height: CommonStyle.horizontalGapBtwnRows),
                             Row(
                               children: [
                                 CircleAvatar(
                                   backgroundColor: AppColors.brandPrimaryColor,
-                                  radius: 10,
+                                  radius: 10.r,
                                   child: Icon(
                                     Icons.currency_rupee_sharp,
                                     color: AppColors.textPrimaryColor,
-                                    size: 11,
+                                    size: 11.h,
                                   ),
                                 ),
-                                const SizedBox(width: 4),
+                                SizedBox(
+                                  width: CommonStyle.gapBetweenIconsAndText,
+                                ),
                                 Text(
                                   event['price']!,
                                   style: textTheme.bodyMedium!.copyWith(

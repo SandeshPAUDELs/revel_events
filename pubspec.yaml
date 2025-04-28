@@ -44,6 +44,9 @@ dependencies:
   dio: ^5.8.0+1
   flutter_svg: ^2.1.0
   url_launcher: ^6.3.1
+  flutter_screenutil: ^5.9.3
+  ticket_clippers: ^0.0.8
+  equatable: ^2.0.7
 
 dev_dependencies:
   flutter_test:
