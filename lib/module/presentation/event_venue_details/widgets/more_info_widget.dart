@@ -53,7 +53,7 @@ class MoreInfoWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+              SizedBox(height: CommonStyle.verticalGapINMoreInfo),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -67,7 +67,7 @@ class MoreInfoWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+              SizedBox(height: CommonStyle.verticalGapINMoreInfo),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -80,6 +80,7 @@ class MoreInfoWidget extends StatelessWidget {
                   ),
                 ],
               ),
+              SizedBox(height: CommonStyle.verticalGapBetweenWidgets,),
             ],
           );
         }

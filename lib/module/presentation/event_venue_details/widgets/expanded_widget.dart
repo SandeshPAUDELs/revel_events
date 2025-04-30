@@ -24,110 +24,143 @@ class ExpandedWidget extends StatelessWidget {
         } else if (state is EventVenueDetailsLoaded) {
           final ticketOptions = state.eventVenueDetails[0].ticket_options ?? [];
 
-          return ListView.builder(
-            itemCount: ticketOptions.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              final ticket = ticketOptions[index];
-              return Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: CommonStyle.screenPadding,
-                  vertical: CommonStyle.screenPadding,
-                ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 16.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              ticket.name ?? 'Ticket Phase',
-                              style: textTheme.titleLarge,
+          return Container(
+            decoration: BoxDecoration(
+              border: Border(
+                left: BorderSide(color: AppColors.strokeColor, width: 2.0),
+                right: BorderSide(color: AppColors.strokeColor, width: 2.0),
+                bottom: BorderSide(color: AppColors.strokeColor, width: 2.0),
+              ),
+              borderRadius: BorderRadiusDirectional.only(
+                bottomEnd: Radius.circular(10.r),
+                bottomStart: Radius.circular(10.r),
+              ),
+              // borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: ListView.builder(
+              itemCount: ticketOptions.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                final ticket = ticketOptions[index];
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: CommonStyle.screenPadding,
+                    vertical: CommonStyle.screenPadding,
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 12.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  ticket.name ?? 'Ticket Phase',
+                                  style: textTheme.titleLarge,
+                                ),
+                                SizedBox(height: 4.h),
+                                Text(
+                                  '${ticket.amount}/${ticket.amount_type}',
+                                  style: textTheme.titleSmall,
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 5),
-                            Text(
-                              '${ticket.amount}/${ticket.amount_type}',
-                              style: textTheme.titleSmall,
+                          ),
+                          Expanded(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ButtonThemes.incrementDecrementButton(
+                                  context,
+                                  Icon(
+                                    Icons.remove,
+                                    size: 14.w,
+                                    color: AppColors.brandPrimaryColor,
+                                  ),
+                                  () {}, // Decrement logic
+                                ),
+                                SizedBox(width: 3.w),
+                                Text(
+                                  ticket.number_of_participant.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: textTheme.titleSmall!.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                ButtonThemes.incrementDecrementButton(
+                                  context,
+                                  Icon(
+                                    Icons.add,
+                                    size: 14.w,
+                                    color: AppColors.brandPrimaryColor,
+                                  ),
+                                  () {}, // Increment logic
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ButtonThemes.incrementDecrementButton(
-                              context,
-                              Icon(
-                                Icons.remove,
-                                size: 14.w,
-                                color: AppColors.brandPrimaryColor,
-                              ),
-                              () {}, // Decrement logic
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              ticket.number_of_participant.toString(),
-                              style: textTheme.titleLarge,
-                            ),
-                            const SizedBox(width: 5),
-                            ButtonThemes.incrementDecrementButton(
-                              context,
-                              Icon(
-                                Icons.add,
-                                size: 14.w,
-                                color: AppColors.brandPrimaryColor,
-                              ),
-                              () {}, // Increment logic
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    Card(
-                      color: AppColors.buttonlevelSecondaryColor,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: AppColors.strokeColor,
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ],
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(CommonStyle.contanersPadding),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Other Details', style: textTheme.titleLarge),
-                            SizedBox(height: 4.h),
-                            Html(
-                              data:
-                                  state
-                                      .eventVenueDetails[0]
-                                      .ticket_options![index]
-                                      .description ??
-                                  '<p>No description available</p>',
+                      SizedBox(height: 12.h),
+                      Card(
+                        color: AppColors.buttonlevelSecondaryColor,
+                        shape: RoundedRectangleBorder(
+                          side: BorderSide(
+                            color: AppColors.strokeColor,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(CommonStyle.contanersPadding),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10.h),
+                              Text(
+                                'Other Details',
+                                style: textTheme.titleLarge!.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  height: 1.5.h,
+                                ),
+                              ),
+                              SizedBox(height: 4.h),
+                              Html(
+                                data:
+                                    state
+                                        .eventVenueDetails[0]
+                                        .ticket_options![index]
+                                        .description ??
+                                    '<p>No description available</p>',
 
-                              style: {
-                                "p": Style(color: AppColors.textPrimaryColor),
-                              },
-                            ),
-                          ],
+                                style: {
+                                  "p": Style(
+                                    color: AppColors.textPrimaryColor,
+                                    fontSize: FontSize(12.sp),
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10.h),
-                    SizedBox(
-                      width: double.infinity,
-                      child: CustomPaint(painter: DashedLinePainter()),
-                    ),
-                  ],
-                ),
-              );
-            },
+                      SizedBox(height: 10.h),
+                      SizedBox(
+                        width: double.infinity,
+                        child: CustomPaint(painter: DashedLinePainter()),
+                      ),
+                      SizedBox(height: 16.h),
+                    ],
+                  ),
+                );
+              },
+            ),
           );
         } else if (state is EventVenueDetailsError) {
           return const Center(child: Text('Error loading venue details'));

@@ -20,7 +20,10 @@ class ContainerStyles {
       ),
       child: Text(
         event_type,
-        style: textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.w400),
+        style: textTheme.bodyMedium!.copyWith(
+          fontWeight: FontWeight.w400,
+          height: 1.5,
+        ),
       ),
     );
   }

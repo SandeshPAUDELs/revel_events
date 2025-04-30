@@ -26,13 +26,21 @@ class AboutUsWidget extends StatelessWidget {
               Text('About Us', style: textTheme.titleLarge),
               SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
               ExpandableText(
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.buttonlevelSecondaryColor,
+                    blurRadius: 0,
+                    spreadRadius: 0,
+                  ),
+                ],
+
                 backgroundColor: AppColors.buttonlevelSecondaryColor,
                 textWidget: Text(
                   state.eventVenueDetails[0].event?.organizer?.description ??
-                      '',
-
+                    '',
                   maxLines: 3,
                   style: textTheme.titleSmall,
+                  textAlign: TextAlign.justify,
                 ),
                 helper: Helper.text,
                 helperTextStyle: textTheme.bodyMedium!.copyWith(
@@ -40,6 +48,7 @@ class AboutUsWidget extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
+              SizedBox(height: CommonStyle.horizontalGap),
             ],
           );
         }

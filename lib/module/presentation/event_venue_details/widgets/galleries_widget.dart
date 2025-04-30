@@ -44,6 +44,7 @@ class GalleriesWidget extends StatelessWidget {
             );
           },
         ),
+        SizedBox(height: CommonStyle.horizontalGap),
       ],
     );
   }

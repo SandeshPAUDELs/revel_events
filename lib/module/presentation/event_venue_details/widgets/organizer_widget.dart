@@ -31,6 +31,7 @@ class OrganizerWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              SizedBox(height: CommonStyle.horizontalGap),
               CircleAvatar(
                 radius: 40.r,
                 backgroundImage: NetworkImage(image.url),

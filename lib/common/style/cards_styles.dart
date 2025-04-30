@@ -17,7 +17,6 @@ import 'package:flutter/material.dart'
         Widget;
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ticket_clippers/ticket_clippers.dart';
 
 class CardThemees {
   static Card createEmptyCard(BuildContext context, Widget child) {
@@ -50,52 +49,45 @@ class CardThemees {
     return Card(
       elevation: 3,
       color: AppColors.cardBackgroundColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(CommonStyle.borderRadius),
-      ),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(CommonStyle.borderRadius),
+      // ),
       child: Row(
         children: [
           Expanded(
             flex: 2,
-            child: Align(
-              child: TicketClipper(
-                clipper: RoundedEdgeClipper(
-                  edge: Edge.right,
-                  points: 8,
-                  depth: 15,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  alignment: Alignment(0, 0),
+                  image: AssetImage('assets/images/Subtract.png'),
+                  fit: BoxFit.fill,
                 ),
-                child: Container(
-                  // padding: EdgeInsets.symmetric(
-                  //   vertical: CommonStyle.contanersPadding,
-                  // ),
-                  decoration: BoxDecoration(
-                    color: AppColors.brandPrimaryColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0.r),
-                      bottomLeft: Radius.circular(10.0.r),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0.r),
+                  bottomLeft: Radius.circular(10.0.r),
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 10.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(day.substring(0, 3), style: textTheme.titleSmall),
+                    // SizedBox(height: 6.h),
+                    Text(date.substring(5, 7), style: textTheme.headlineMedium),
+                    // SizedBox(height: 6.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          monthYear.substring(8, 16),
+                          style: textTheme.titleSmall,
+                        ),
+                      ],
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(day.substring(0, 3), style: textTheme.titleMedium),
-                      SizedBox(height: 6.h),
-                      Text(
-                        date.substring(5, 7),
-                        style: textTheme.headlineMedium,
-                      ),
-                      SizedBox(height: 6.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            monthYear.substring(8, 16),
-                            style: textTheme.titleMedium,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
             ),

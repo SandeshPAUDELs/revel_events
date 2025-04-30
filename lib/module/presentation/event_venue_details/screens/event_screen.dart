@@ -1,3 +1,5 @@
+import 'package:event_app/common/style/bottom_sheet.dart';
+import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/common/widgets/persistent_headers.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
@@ -7,6 +9,7 @@ import 'package:event_app/module/presentation/event_venue_details/widgets/aboutW
 import 'package:event_app/module/presentation/event_venue_details/widgets/artist_widget.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/botton_nav_widget.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/describe_events.dart';
+import 'package:event_app/module/presentation/event_venue_details/widgets/filter_widget.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/galleries_widget.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/more_info_widget.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/organizer_widget.dart';
@@ -16,6 +19,7 @@ import 'package:event_app/module/presentation/event_venue_details/widgets/ticket
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 class EventScreen extends StatelessWidget {
   final GlobalKey ticketKey = GlobalKey();
@@ -154,6 +158,13 @@ class EventScreen extends StatelessWidget {
                     labelColor: AppColors.textPrimaryColor,
                     unselectedLabelColor: AppColors.textSecondaryColor,
                     indicatorColor: AppColors.brandPrimaryColor,
+                    indicator: UnderlineTabIndicator(
+                      borderSide: BorderSide(
+                        color: AppColors.brandPrimaryColor,
+                        width: 2.0,
+                      ),
+                      insets: EdgeInsets.fromLTRB(-10.0, 0, 0, 0),
+                    ),
                     tabAlignment: TabAlignment.start,
                     tabs: [
                       Tab(child: Text('Ticket')),
@@ -180,12 +191,69 @@ class EventScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 children: [
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 6,
+                        child: Text(
+                          'Select Venues',
+                          style: textTheme.titleMedium,
+                        ),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 30.h,
+                          width: 30.w,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              BottomSheetStyle.showModalsBottomSheet(
+                                context,
+                                const FilterWidget(),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.cardBackgroundColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  CommonStyle.smallRadius,
+                                ),
+                              ),
+                              padding: EdgeInsets.zero,
+                            ),
+                            child: SvgPicture.asset(
+                              'assets/icons/filter.svg',
+                              height: 20.h,
+                              width: 20.h,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Divider(color: AppColors.strokeColor, thickness: 1),
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: CommonStyle.screenPadding,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.buttonlevelSecondaryColor,
+                        ),
+                        child: Text('Pokhara', style: textTheme.titleSmall),
+                      ),
+                    ],
+                  ),
                   Container(
                     key: ticketKey,
                     alignment: Alignment.center,
                     child: TicketWidget(),
                   ),
                   Divider(color: AppColors.strokeColor, thickness: 2),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
 
                   Container(
                     key: moreInfoKey,
@@ -193,6 +261,7 @@ class EventScreen extends StatelessWidget {
                     child: MoreInfoWidget(),
                   ),
                   Divider(color: AppColors.strokeColor, thickness: 2),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
 
                   Container(
                     key: artistKey,
@@ -200,6 +269,8 @@ class EventScreen extends StatelessWidget {
                     child: ArtistsWidget(),
                   ),
                   Divider(color: AppColors.strokeColor, thickness: 2),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+
                   Container(
                     key: aboutUsKey,
                     alignment: Alignment.center,
@@ -207,24 +278,31 @@ class EventScreen extends StatelessWidget {
                   ),
 
                   Divider(color: AppColors.strokeColor, thickness: 2),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+
                   Container(
                     key: galleryKey,
                     alignment: Alignment.center,
                     child: GalleriesWidget(),
                   ),
                   Divider(color: AppColors.strokeColor, thickness: 2),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
                   Container(
                     key: videoKey,
                     alignment: Alignment.center,
                     child: GalleriesWidget(),
                   ),
                   Divider(color: AppColors.strokeColor, thickness: 2),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+
                   Container(
                     key: termsAndConditionkey,
                     alignment: Alignment.center,
                     child: TermsAndConditions(),
                   ),
                   Divider(color: AppColors.strokeColor, thickness: 2),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+
                   Container(
                     key: meetOrganizerkey,
                     alignment: Alignment.center,
@@ -275,7 +353,11 @@ class EventScreen extends StatelessWidget {
                       },
                     ),
                   ),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+
                   Divider(color: AppColors.strokeColor, thickness: 2),
+                  SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+
                   Container(
                     key: recommendedEventKey,
                     alignment: Alignment.center,

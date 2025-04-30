@@ -35,7 +35,7 @@ class ArtistsWidget extends StatelessWidget {
                         state.eventVenueDetails[0].event?.artists?[index];
 
                     return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
                           radius: 47.r,

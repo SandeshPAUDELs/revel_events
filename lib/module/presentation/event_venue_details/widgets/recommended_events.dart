@@ -41,7 +41,7 @@ class RecommendedEventWidget extends StatelessWidget {
         Text('Recommended Events', style: textTheme.titleLarge),
         SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
         SizedBox(
-          height: 330.h,
+          height: 320.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: recommendedEvents.length,
@@ -80,10 +80,11 @@ class RecommendedEventWidget extends StatelessWidget {
                             top: 12.h,
                             right: 12.h,
                             child: CircleAvatar(
-                              backgroundColor: Colors.black54,
+                              radius: 15.r,
+                              backgroundColor: AppColors.cardBackgroundColor,
                               child: Icon(
                                 Icons.favorite_border,
-                                color: Colors.white,
+                                color: AppColors.textPrimaryColor,
                                 size: 20.h,
                               ),
                             ),
@@ -92,8 +93,9 @@ class RecommendedEventWidget extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          bottom: 12.h,
-                          left: CommonStyle.contanersPadding,
+                          // bottom: 12.h,
+                          bottom: 0.h,
+                          left: CommonStyle.screenPadding,
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,6 +105,7 @@ class RecommendedEventWidget extends StatelessWidget {
                               event['name']!,
                               style: textTheme.titleMedium!.copyWith(
                                 fontWeight: FontWeight.w600,
+                                height: 1.5.h,
                               ),
                             ),
                             SizedBox(height: CommonStyle.horizontalGapBtwnRows),

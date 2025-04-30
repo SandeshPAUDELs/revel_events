@@ -32,8 +32,8 @@ class ButtonThemes {
     VoidCallback onTap,
   ) {
     return SizedBox(
-      height: 20.h,
-      width: 20.w,
+      height: 30.h,
+      width: 30.w,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
@@ -58,6 +58,22 @@ class ButtonThemes {
       foregroundColor: textColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(CommonStyle.borderRadius),
+      ),
+      padding: responsivehalfPadding(context),
+    );
+  }
+
+  static ButtonStyle elevateButtonWithBorder(
+    BuildContext context,
+    Color backgroundColor,
+    Color textColor,
+  ) {
+    return ElevatedButton.styleFrom(
+      backgroundColor: backgroundColor,
+      foregroundColor: textColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(CommonStyle.borderRadius),
+        side: BorderSide(color: AppColors.strokeColor, width: 1),
       ),
       padding: responsivehalfPadding(context),
     );

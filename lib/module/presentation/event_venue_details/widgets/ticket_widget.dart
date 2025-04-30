@@ -1,16 +1,10 @@
-import 'package:event_app/common/style/bottom_sheet.dart';
 import 'package:event_app/common/style/cards_styles.dart';
-import 'package:event_app/common/style/common_style.dart';
-import 'package:event_app/core/config/themes/colors.dart';
-import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
 import 'package:event_app/module/presentation/cubit/expandable_card_cubit.dart';
 import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_detail_cubit.dart';
 import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_details_state.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/expanded_widget.dart';
-import 'package:event_app/module/presentation/event_venue_details/widgets/filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,64 +13,8 @@ class TicketWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = TextThemes.createTextTheme(context);
-
     return Column(
       children: [
-        SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
-        Row(
-          children: [
-            Expanded(
-              flex: 6,
-              child: Text('Select Venues', style: textTheme.titleMedium),
-            ),
-            Expanded(
-              child: SizedBox(
-                height: 30.h,
-                width: 30.w,
-                child: ElevatedButton(
-                  onPressed: () {
-                    BottomSheetStyle.showModalsBottomSheet(
-                      context,
-                      const FilterWidget(),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.cardBackgroundColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        CommonStyle.smallRadius,
-                      ),
-                    ),
-                    padding: EdgeInsets.zero,
-                  ),
-                  child: SvgPicture.asset(
-                    'assets/icons/filter.svg',
-                    height: 20.h,
-                    width: 20.h,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
-        Stack(
-          alignment: Alignment.center,
-          children: [
-            Divider(color: AppColors.strokeColor, thickness: 1),
-            Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: CommonStyle.screenPadding,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.buttonlevelSecondaryColor,
-              ),
-              child: Text('Pokhara', style: textTheme.titleSmall),
-            ),
-          ],
-        ),
-        SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
         BlocBuilder<EventVenueDetailCubit, EventVenueDetailsState>(
           builder: (context, state) {
             if (state is EventVenueDetailsLoading) {
@@ -107,7 +45,9 @@ class TicketWidget extends StatelessWidget {
                             state.eventVenueDetails[0].start_datetime ?? '',
                             state.eventVenueDetails[0].start_datetime ?? '',
                             state.eventVenueDetails[0].start_datetime ?? '',
-                            venue?.name ?? '',
+                            state.eventVenueDetails[0].event?.date_range != null
+                                ? '${state.eventVenueDetails[0].event!.date_range!['start_datetime']!.substring(19, 27)} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']!.substring(19, 27)}'
+                                : '7:15 PM - 10:15 PM',
                             venue?.address ?? '',
                             SvgPicture.asset('assets/icons/Time.svg'),
                             SvgPicture.asset(

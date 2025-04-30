@@ -119,7 +119,7 @@ class DesccribeEvents extends StatelessWidget {
                       SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                       Text(
                         'Organized by ${state.eventVenueDetails[0].event?.organizer?.name ?? 'Unknown'}',
-                        style: textTheme.bodyMedium,
+                        style: textTheme.titleSmall,
                       ),
                     ],
                   ),
@@ -145,7 +145,7 @@ class DesccribeEvents extends StatelessWidget {
                                 null
                             ? 'Rs ${state.eventVenueDetails[0].event?.amount_range?.lowest_amount} - Rs ${state.eventVenueDetails[0].event?.amount_range?.highest_amount}'
                             : 'Rs 1000',
-                        style: textTheme.bodyMedium!.copyWith(
+                        style: textTheme.titleSmall!.copyWith(
                           color: AppColors.brandPrimaryColor,
                           fontWeight: FontWeight.bold,
                         ),

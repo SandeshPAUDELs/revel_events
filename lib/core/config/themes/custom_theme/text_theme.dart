@@ -42,12 +42,15 @@ class TextThemes {
 
       titleSmall: TextStyle(
         fontSize: 14.sp,
+        fontWeight: FontWeight.w400,
+        height: 1.5,
         color: AppColors.textPrimaryColor,
         overflow: TextOverflow.ellipsis,
       ),
 
       bodyMedium: TextStyle(
         fontSize: 12.sp,
+        height: 1.5,
         color: AppColors.textPrimaryColor,
         overflow: TextOverflow.ellipsis,
       ),
