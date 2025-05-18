@@ -35,7 +35,6 @@ class ExpandedWidget extends StatelessWidget {
                 bottomEnd: Radius.circular(10.r),
                 bottomStart: Radius.circular(10.r),
               ),
-              // borderRadius: BorderRadius.circular(8.0),
             ),
             child: ListView.builder(
               itemCount: ticketOptions.length,

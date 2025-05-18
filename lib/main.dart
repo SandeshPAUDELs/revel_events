@@ -5,14 +5,14 @@ import 'package:event_app/module/presentation/event_venue_details/cubits/event_v
 import 'package:event_app/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   injection();
-  runApp(
-    MyApp(),
-  );
+  await dotenv.load(fileName: ".env");
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -20,15 +20,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return ScreenUtilInit(
-      designSize: const Size(320, 690),
+      designSize: Size(size.width, size.height),
       minTextAdapt: true,
       splitScreenMode: true,
       child: MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => ExpandCubit()),
-        BlocProvider(create: (context) => ExpandableTextCubit()),
-      
-        BlocProvider(create: (context) => EventVenueDetailCubit(getIt())),
+        providers: [
+          BlocProvider(create: (context) => ExpandCubit()),
+          BlocProvider(create: (context) => ExpandableTextCubit()),
+
+          BlocProvider(create: (context) => EventVenueDetailCubit(getIt())),
         ],
         child: MaterialApp.router(
           debugShowCheckedModeBanner: false,

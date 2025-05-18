@@ -1,6 +1,6 @@
 import 'package:event_app/core/network/dio.dart';
 import 'package:event_app/core/network/url.dart';
-import 'package:event_app/module/data/models/event_venue_detail_model.dart';
+import 'package:event_app/module/data/even_details/models/event_venue_detail_model.dart';
 
 abstract class EventVenueDetailsSource {
   Future<List<EventVenueDetails>> getEventVenueDetails();

@@ -1,67 +1,78 @@
 import 'package:event_app/common/style/button_styles.dart';
 import 'package:event_app/common/style/common_style.dart';
-import 'package:event_app/common/style/events_container.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
-import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_detail_cubit.dart';
-import 'package:event_app/module/presentation/event_venue_details/cubits/event_venue_details_state.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DesccribeEvents extends StatelessWidget {
-  const DesccribeEvents({super.key});
+  final String venue, dateTime, organizer, organizerimage, price;
+  final int interestedCount; 
+  final Widget children1, children2;
+  const DesccribeEvents({
+    super.key,
+    required this.venue,
+    required this.dateTime,
+    required this.organizer,
+    required this.organizerimage,
+    required this.price,
+    required this.interestedCount,
+    required this.children1,
+    required this.children2,
+  });
 
   @override
   Widget build(BuildContext context) {
     final textTheme = TextThemes.createTextTheme(context);
 
-    return BlocBuilder<EventVenueDetailCubit, EventVenueDetailsState>(
-      builder: (context, state) {
-        if (state is EventVenueDetailsLoading) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (state is EventVenueDetailsError) {
-          return Center(child: Text(state.errorMessage));
-        } else if (state is EventVenueDetailsLoaded) {
+    // return BlocBuilder<EventVenueDetailCubit, EventVenueDetailsState>(
+    //   builder: (context, state) {
+    //     if (state is EventVenueDetailsLoading) {
+    //       return const Center(child: CircularProgressIndicator());
+    //     } else if (state is EventVenueDetailsError) {
+    //       return Center(child: Text(state.errorMessage));
+    //     } else if (state is EventVenueDetailsLoaded) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [
-                  Wrap(
-                    spacing: CommonStyle.gap1horizontal,
-                    children:
-                        (state.eventVenueDetails[0].event?.category ??
-                                ['High in Demand', 'Limited Booking'])
-                            .map(
-                              (item) => ContainerStyles.createContainer(
-                                context,
-                                item,
-                                AppColors.brandPrimaryColor,
-                              ),
-                            )
-                            .toList(),
-                  ),
+                  children1,
+                  // Wrap(
+                  //   spacing: CommonStyle.gap1horizontal,
+                  //   children: 
+                  //       (state.eventVenueDetails[0].event?.category ??
+                  //               ['High in Demand', 'Limited Booking'])
+                  //           .map(
+                  //             (item) => ContainerStyles.createContainer(
+                  //               context,
+                  //               item,
+                  //               AppColors.brandPrimaryColor,
+                  //             ),
+                  //           )
+                  //           .toList(),
+                  // ),
                 ],
               ),
               SizedBox(height: CommonStyle.gap1Vertical),
               Row(
                 children: [
-                  Wrap(
-                    spacing: CommonStyle.gap1horizontal,
-                    children:
-                        (state.eventVenueDetails[0].event?.subcategory ??
-                                ['Pop', 'Rok'])
-                            .map(
-                              (item) => ContainerStyles.createContainer(
-                                context,
-                                item,
-                                AppColors.textSecondaryColor,
-                              ),
-                            )
-                            .toList(),
-                  ),
+                  children2,
+                  // Wrap(
+                  //   spacing: CommonStyle.gap1horizontal,
+                  //   children: 
+                  //       (state.eventVenueDetails[0].event?.subcategory ??
+                  //               ['Pop', 'Rok'])
+                  //           .map(
+                  //             (item) => ContainerStyles.createContainer(
+                  //               context,
+                  //               item,
+                  //               AppColors.textSecondaryColor,
+                  //             ),
+                  //           )
+                  //           .toList(),
+                  // ),
                 ],
               ),
               SizedBox(height: CommonStyle.gap1Vertical),
@@ -78,8 +89,9 @@ class DesccribeEvents extends StatelessWidget {
                       SizedBox(width: CommonStyle.gapBetweenIconsAndText),
 
                       Text(
-                        state.eventVenueDetails[0].venue?.name ??
-                            'Unknown Venue',
+                        venue, 
+                        // state.eventVenueDetails[0].venue?.name ??
+                        //     'Unknown Venue',
                         style: textTheme.titleSmall,
                       ),
                     ],
@@ -97,7 +109,8 @@ class DesccribeEvents extends StatelessWidget {
                         SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                         Expanded(
                           child: Text(
-                            '${state.eventVenueDetails[0].event!.date_range!['start_datetime']?.substring(0, 16)} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']?.substring(0, 16)}',
+                            dateTime,
+                            // '${state.eventVenueDetails[0].event!.date_range!['start_datetime']?.substring(0, 16)} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']?.substring(0, 16)}',
                             style: textTheme.titleSmall,
                             maxLines: 2,
                           ),
@@ -111,14 +124,16 @@ class DesccribeEvents extends StatelessWidget {
                       CircleAvatar(
                         radius: 12,
                         child: Image.network(
-                          state.eventVenueDetails[0].event?.organizer?.image ??
-                              '',
+                          organizerimage,
+                          // state.eventVenueDetails[0].event?.organizer?.image ??
+                          //     '',
                         ),
                       ),
 
                       SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                       Text(
-                        'Organized by ${state.eventVenueDetails[0].event?.organizer?.name ?? 'Unknown'}',
+                        // 'Organized by ${state.eventVenueDetails[0].event?.organizer?.name ?? 'Unknown'}',
+                        'Organized by $organizer',
                         style: textTheme.titleSmall,
                       ),
                     ],
@@ -137,14 +152,15 @@ class DesccribeEvents extends StatelessWidget {
                       ),
                       SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                       Text(
-                        state
-                                    .eventVenueDetails[0]
-                                    .event
-                                    ?.amount_range
-                                    ?.highest_amount !=
-                                null
-                            ? 'Rs ${state.eventVenueDetails[0].event?.amount_range?.lowest_amount} - Rs ${state.eventVenueDetails[0].event?.amount_range?.highest_amount}'
-                            : 'Rs 1000',
+                        price,
+                        // state
+                        //             .eventVenueDetails[0]
+                        //             .event
+                        //             ?.amount_range
+                        //             ?.highest_amount !=
+                        //         null
+                        //     ? 'Rs ${state.eventVenueDetails[0].event?.amount_range?.lowest_amount} - Rs ${state.eventVenueDetails[0].event?.amount_range?.highest_amount}'
+                        //     : 'Rs 1000',
                         style: textTheme.titleSmall!.copyWith(
                           color: AppColors.brandPrimaryColor,
                           fontWeight: FontWeight.bold,
@@ -182,12 +198,12 @@ class DesccribeEvents extends StatelessWidget {
                             ),
                             SizedBox(width: CommonStyle.gapBetweenIconsAndText),
                             Text(
-                              (state
-                                          .eventVenueDetails[0]
-                                          .event
-                                          ?.interested_count ??
-                                      0)
-                                  .toString(),
+                              // (state
+                              //             .eventVenueDetails[0]
+                              //             .event
+                              //             ?.interested_count ??
+                              //         0)
+                                  interestedCount.toString(),
                               style: textTheme.titleSmall!.copyWith(
                                 color: AppColors.textPrimaryColor,
                                 fontWeight: FontWeight.w500,
@@ -223,9 +239,9 @@ class DesccribeEvents extends StatelessWidget {
               ),
             ],
           );
-        }
-        return const SizedBox.shrink();
-      },
-    );
+    //     }
+    //     return const SizedBox.shrink();
+    //   },
+    // );
   }
 }

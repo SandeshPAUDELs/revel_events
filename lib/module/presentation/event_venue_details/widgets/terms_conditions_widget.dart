@@ -8,7 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class TermsAndConditions extends StatelessWidget {
-  const TermsAndConditions({super.key});
+  final String termsAndConditions;
+  const TermsAndConditions({super.key, required this.termsAndConditions});
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +23,9 @@ class TermsAndConditions extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Terms and Conditions', style: textTheme.titleLarge),
-               SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
+              SizedBox(height: CommonStyle.verticalGapBetweenWidgets),
               Html(
-                data:
-                    state.eventVenueDetails[0].terms_and_condition ??
-                    "Terms and Conditions Cannot be loaded",
-                
+                data: termsAndConditions,
                 style: {"p": Style(color: AppColors.textPrimaryColor)},
               ),
             ],

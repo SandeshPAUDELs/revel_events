@@ -1,4 +1,4 @@
-import 'package:event_app/module/data/datasource/event_venue_details_source.dart';
+import 'package:event_app/module/data/even_details/datasource/event_venue_details_source.dart';
 import 'package:event_app/module/domain/repository/event_venue_details_repo.dart';
 import 'package:event_app/module/domain/entities/event_venue_detail_entity.dart';
 

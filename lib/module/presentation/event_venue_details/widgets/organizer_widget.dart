@@ -69,7 +69,7 @@ class OrganizerWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: CommonStyle.horizontalGapBtwnRows),
+              SizedBox(height: CommonStyle.horizontalGap),
             ],
           ),
         ),
