@@ -17,6 +17,7 @@ import 'package:event_app/module/presentation/event_venue_details/widgets/organi
 import 'package:event_app/module/presentation/event_venue_details/widgets/recommended_events.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/terms_conditions_widget.dart';
 import 'package:event_app/module/presentation/event_venue_details/widgets/ticket_widget.dart';
+import 'package:event_app/common/widgets/simmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,7 +71,7 @@ class EventScreen extends StatelessWidget {
         child: BlocBuilder<EventVenueDetailCubit, EventVenueDetailsState>(
           builder: (context, state) {
             if (state is EventVenueDetailsLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return SimmerWidget();
             } else if (state is EventVenueDetailsLoaded) {
               return NestedScrollView(
                 controller: scrollController,
@@ -142,23 +143,37 @@ class EventScreen extends StatelessWidget {
 
                         child: DesccribeEvents(
                           venue: state.eventVenueDetails[0].venue?.name ?? '',
-                          dateTime: '${state.eventVenueDetails[0].event!.date_range!['start_datetime']?.substring(0, 16)} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']?.substring(0, 16)}',
-                          organizer: state.eventVenueDetails[0].event?.organizer?.name ?? '',
-                          organizerimage: state.eventVenueDetails[0].event?.organizer?.image ??
+                          dateTime:
+                              '${state.eventVenueDetails[0].event!.date_range!['start_datetime']?.substring(0, 16)} - ${state.eventVenueDetails[0].event!.date_range!['end_datetime']?.substring(0, 16)}',
+                          organizer:
+                              state
+                                  .eventVenueDetails[0]
+                                  .event
+                                  ?.organizer
+                                  ?.name ??
                               '',
-                          price: state
-                                    .eventVenueDetails[0]
-                                    .event
-                                    ?.amount_range
-                                    ?.highest_amount !=
-                                null
-                            ? 'Rs ${state.eventVenueDetails[0].event?.amount_range?.lowest_amount} - Rs ${state.eventVenueDetails[0].event?.amount_range?.highest_amount}'
-                            : 'Rs 1000',
-                          interestedCount: state
+                          organizerimage:
+                              state
+                                  .eventVenueDetails[0]
+                                  .event
+                                  ?.organizer
+                                  ?.image ??
+                              '',
+                          price:
+                              state
                                           .eventVenueDetails[0]
                                           .event
-                                          ?.interested_count ??
-                                      0,
+                                          ?.amount_range
+                                          ?.highest_amount !=
+                                      null
+                                  ? 'Rs ${state.eventVenueDetails[0].event?.amount_range?.lowest_amount} - Rs ${state.eventVenueDetails[0].event?.amount_range?.highest_amount}'
+                                  : 'Rs 1000',
+                          interestedCount:
+                              state
+                                  .eventVenueDetails[0]
+                                  .event
+                                  ?.interested_count ??
+                              0,
                           children1: Wrap(
                             spacing: CommonStyle.gap1horizontal,
                             children:

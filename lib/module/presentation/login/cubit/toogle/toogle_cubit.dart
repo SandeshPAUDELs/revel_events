@@ -1,4 +1,4 @@
-import 'package:event_app/module/presentation/form/cubit/form/toogle/toogle_state.dart';
+import 'package:event_app/module/presentation/login/cubit/toogle/toogle_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ToogleCubit extends Cubit<ToogleState>{

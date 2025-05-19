@@ -2,10 +2,11 @@ import 'package:event_app/common/style/common_style.dart';
 import 'package:event_app/core/config/routes/routes_name.dart';
 import 'package:event_app/core/config/themes/colors.dart';
 import 'package:event_app/core/config/themes/custom_theme/text_theme.dart';
-import 'package:event_app/module/presentation/form/cubit/form/text_fields_cubit.dart';
-import 'package:event_app/module/presentation/form/cubit/form/text_fields_state.dart';
-import 'package:event_app/module/presentation/form/cubit/form/toogle/toogle_cubit.dart';
-import 'package:event_app/module/presentation/form/cubit/form/toogle/toogle_state.dart';
+import 'package:event_app/module/presentation/login/cubit/login/login_cubit.dart';
+import 'package:event_app/module/presentation/login/cubit/login/login_state.dart';
+import 'package:event_app/module/presentation/login/cubit/toogle/toogle_cubit.dart';
+import 'package:event_app/module/presentation/login/cubit/toogle/toogle_state.dart';
+import 'package:event_app/module/presentation/login/widgets/instruction_widget.dart';
 import 'package:event_app/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,8 +14,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 
-class TextFieldsFields extends StatelessWidget {
-  const TextFieldsFields({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,18 +23,18 @@ class TextFieldsFields extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => getIt<TextFieldsCubit>()),
+        BlocProvider(create: (context) => getIt<LoginCubit>()),
         BlocProvider(create: (context) => ToogleCubit()),
       ],
-      child: BlocConsumer<TextFieldsCubit, TextFieldsState>(
+      child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
           // TODO: implement listener
-          if (state is TextFieldsLoadedState) {
+          if (state is LoginLoadedState) {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(const SnackBar(content: Text('Login successful')));
             context.go(RoutesName.eventScreeen);
-          } else if (state is TextFieldsErrorState) {
+          } else if (state is LoginErrorState) {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(state.message)));
@@ -47,7 +48,7 @@ class TextFieldsFields extends StatelessWidget {
                 body: Column(
                   children: [
                     FormBuilder(
-                      key: context.read<TextFieldsCubit>().formKey,
+                      key: context.read<LoginCubit>().formKey,
                       child: Column(
                         children: [
                           Text('Email', style: textTheme.titleLarge),
@@ -71,7 +72,7 @@ class TextFieldsFields extends StatelessWidget {
                               fillColor: AppColors.cardSecondayColor,
                             ),
                             focusNode:
-                                context.read<TextFieldsCubit>().emailFocusNode,
+                                context.read<LoginCubit>().emailFocusNode,
                             validator: FormBuilderValidators.compose([
                               FormBuilderValidators.required(),
                               FormBuilderValidators.email(),
@@ -111,7 +112,7 @@ class TextFieldsFields extends StatelessWidget {
                             ),
                             focusNode:
                                 context
-                                    .read<TextFieldsCubit>()
+                                    .read<LoginCubit>()
                                     .passwordFocusNode,
                             obscureText: !toogleState.isPasswordVisible,
                             validator: FormBuilderValidators.compose([
@@ -140,9 +141,26 @@ class TextFieldsFields extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        context.read<TextFieldsCubit>().submitTextFields();
+                        context.read<LoginCubit>().submitLogin();
                       },
                       child: const Text('Submit'),
+                    ),
+
+                    SizedBox(height: 45),
+                    GestureDetector(
+                      onTap:
+                          () => showDialog(
+                            context: context,
+                            builder: (context) {
+                              return InstructionWidget(
+                                instructions: state.instructions,
+                              );
+                            },
+                          ),
+                      child: Text(
+                        'Get Instruction',
+                        style: textTheme.bodyMedium,
+                      ),
                     ),
                   ],
                 ),
